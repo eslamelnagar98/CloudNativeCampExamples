@@ -7,6 +7,7 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     private protected LinkedListNodeExp<T> _head;
 
     private protected LinkedListNodeExp<T> _tail;
+
     public abstract LinkedListExp<T> InsertLast(T data);
     public abstract LinkedListExp<T> InsertAfter(T nodeData, T data);
     public abstract LinkedListExp<T> InsertBefore(T nodeData, T data);
@@ -14,7 +15,7 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     public IEnumerator<LinkedListNodeExp<T>> GetEnumerator()
     {
         var enumerator = new LinkedListIteratorExp<T>(_head);
-        for (; enumerator.MoveNext();)
+        while (enumerator.MoveNext())
         {
             yield return enumerator.Current;
         }
