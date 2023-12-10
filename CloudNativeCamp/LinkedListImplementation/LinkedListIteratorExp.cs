@@ -1,16 +1,18 @@
 ﻿namespace CloudNativeCamp.LinkedListImplementation;
-public struct LinkedListIteratorExp<T> : IEnumerator<LinkedListNodeExp<T>> where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
+internal struct LinkedListIteratorExp<T> : IEnumerator<LinkedListNodeExp<T>>
+    where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
+    public LinkedListNodeExp<T> Current => _currentNode;
+
     private LinkedListNodeExp<T> _currentNode;
+
     private bool _firstIteration = true;
+    object IEnumerator.Current => Current;
+
     public LinkedListIteratorExp(LinkedListNodeExp<T> node)
     {
         _currentNode = node;
     }
-
-    public LinkedListNodeExp<T> Current => _currentNode;
-
-    object IEnumerator.Current => Current;
 
     public bool MoveNext()
     {
@@ -18,10 +20,16 @@ public struct LinkedListIteratorExp<T> : IEnumerator<LinkedListNodeExp<T>> where
         {
             return false;
         }
-        if (!_firstIteration)
-            _currentNode = _currentNode?.Next;
 
-        _firstIteration = false;
+        if (!_firstIteration)
+        {
+            _currentNode = _currentNode?.Next;
+        }
+        else
+        {
+            _firstIteration = false;
+        }
+
         return _currentNode is not null;
     }
     public void Dispose()

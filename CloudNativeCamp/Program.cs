@@ -1,10 +1,12 @@
 ﻿//await ArrayExample();
-await LinkedListExample();
+await LinkedListExample<SinglyLinkedListExp<int>>();
+//await LinkedListExample<DoublyLinkedListExp<int>>();
 Console.ReadKey();
 
-static async Task LinkedListExample()
+
+static async Task LinkedListExample<T>() where T : LinkedListExp<int>, new()
 {
-    var linkedList = await new LinkedListExp<int>()
+    var linkedList = await new T()
         .InsertLast(5)
         .InsertLast(10)
         .InsertLast(20)
@@ -14,7 +16,7 @@ static async Task LinkedListExample()
         .InsertBefore(30, 25)
         .DeleteNode(5)
         .Print();
-    await Console.Out.WriteLineAsync($"{linkedList.Sum()}");
+    await Console.Out.WriteLineAsync($"Sum Of Data In Linked List Is {linkedList.Sum()}");
 }
 static async Task ArrayExample()
 {
