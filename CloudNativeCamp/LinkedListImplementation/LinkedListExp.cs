@@ -3,16 +3,21 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
     private protected int _length;
-    private protected LinkedListNodeExp<T> _head;
-    private protected LinkedListNodeExp<T> _tail;
 
+    private protected LinkedListNodeExp<T> _head;
+
+    private protected LinkedListNodeExp<T> _tail;
     public abstract LinkedListExp<T> InsertLast(T data);
     public abstract LinkedListExp<T> InsertAfter(T nodeData, T data);
     public abstract LinkedListExp<T> InsertBefore(T nodeData, T data);
     public abstract LinkedListExp<T> DeleteNode(T data);
     public IEnumerator<LinkedListNodeExp<T>> GetEnumerator()
     {
-        return new LinkedListIteratorExp<T>(_head);
+        var enumerator = new LinkedListIteratorExp<T>(_head);
+        for (; enumerator.MoveNext();)
+        {
+            yield return enumerator.Current;
+        }
     }
     public async Task<LinkedListExp<T>> Print()
     {
