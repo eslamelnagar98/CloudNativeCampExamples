@@ -1,6 +1,6 @@
 ﻿namespace CloudNativeCamp.LinkedListImplementation;
 internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
-    where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
+        where T : struct, INumber<T>, ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
     private protected int _length;
 
@@ -9,14 +9,17 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     private protected LinkedListNodeExp<T> _tail;
 
     public abstract LinkedListExp<T> InsertLast(T data);
+
     public abstract LinkedListExp<T> InsertAfter(T nodeData, T data);
+
     public abstract LinkedListExp<T> InsertBefore(T nodeData, T data);
+
     public abstract LinkedListExp<T> DeleteNode(T data);
     public IEnumerator<LinkedListNodeExp<T>> GetEnumerator()
     {
         var enumerator = new LinkedListIteratorExp<T>(_head);
         while (enumerator.MoveNext())
-        {
+        { 
             yield return enumerator.Current;
         }
     }
@@ -37,11 +40,10 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     {
         if (builder.Length is not default(short))
         {
-            builder.Append(" =>");
-            builder.Append(" ");
+            builder.Append(" =>")
+                   .Append(" ");
         }
-        builder.Append(linkedListNode.Data);
-        return builder;
+        return builder.Append(linkedListNode.Data);
     }
 
 }

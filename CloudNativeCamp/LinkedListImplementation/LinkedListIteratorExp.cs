@@ -1,12 +1,12 @@
 ﻿namespace CloudNativeCamp.LinkedListImplementation;
 internal struct LinkedListIteratorExp<T> : IEnumerator<LinkedListNodeExp<T>>
-    where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
+    where T : struct, INumber<T>, ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
     public LinkedListNodeExp<T> Current => _currentNode;
 
     private LinkedListNodeExp<T> _currentNode;
 
-    private bool _firstIteration = true;
+    private bool _firstIteration = true; 
     object IEnumerator.Current => Current;
 
     public LinkedListIteratorExp(LinkedListNodeExp<T> node)

@@ -1,6 +1,6 @@
 ﻿namespace CloudNativeCamp.LinkedListImplementation.DoublyLinkedList;
 internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
-    where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
+       where T : struct, INumber<T>, ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
     public override DoublyLinkedListExp<T> InsertLast(T data)
     {
@@ -57,7 +57,7 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
         var nodeToBeDeleted = Find(data);
         return nodeToBeDeleted is null ? this : DeleteNode(nodeToBeDeleted);
     }
-   
+
 
     private DoublyLinkedListExp<T> DeleteNode(LinkedListNodeExp<T> nodeToBeDeleted)
     {
@@ -147,5 +147,5 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
         _length++;
         return this;
     }
-    
+
 }

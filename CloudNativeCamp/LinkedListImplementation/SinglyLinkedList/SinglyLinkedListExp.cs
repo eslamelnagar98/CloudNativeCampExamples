@@ -1,6 +1,6 @@
 ﻿namespace CloudNativeCamp.LinkedListImplementation.SinglyLinkedList;
-internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T>
-    where T : ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
+internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T> 
+    where T : struct, INumber<T>, ISignedNumber<T>, ISpanParsable<T>, IMinMaxValue<T>
 {
     public override SinglyLinkedListExp<T> InsertLast(T data)
     {
@@ -11,6 +11,7 @@ internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T>
         }
         return InsertLastInternal(linkedListNode);
     }
+
     public override SinglyLinkedListExp<T> InsertAfter(T nodeData, T data)
     {
         var existsNode = Find(nodeData);
@@ -56,6 +57,7 @@ internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T>
         var nodeToBeDeleted = Find(data);
         return nodeToBeDeleted is null ? this : DeleteNode(nodeToBeDeleted);
     }
+
     private SinglyLinkedListExp<T> DeleteNode(LinkedListNodeExp<T> nodeToBeDeleted)
     {
         if (_head == _tail)
@@ -68,7 +70,6 @@ internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T>
             return DeleteFirstElementInLinkedList(nodeToBeDeleted);
         }
         return DeleteNodeInsideLinkedList(nodeToBeDeleted);
-
     }
 
     private SinglyLinkedListExp<T> ResetLinkedList()
@@ -106,6 +107,7 @@ internal sealed class SinglyLinkedListExp<T> : LinkedListExp<T>
         {
             return null;
         }
+
         foreach (var linkedListNode in this)
         {
             if (linkedListNode.Next == nextNode)

@@ -1,8 +1,9 @@
-﻿//await ArrayExample();
-await LinkedListExample<SinglyLinkedListExp<int>>();
+﻿const string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+//SearchValueDemo();
+//await ArrayExample();
+//await LinkedListExample<SinglyLinkedListExp<int>>();
 //await LinkedListExample<DoublyLinkedListExp<int>>();
 Console.ReadKey();
-
 
 static async Task LinkedListExample<T>() where T : LinkedListExp<int>, new()
 {
@@ -12,7 +13,7 @@ static async Task LinkedListExample<T>() where T : LinkedListExp<int>, new()
         .InsertLast(20)
         .InsertAfter(10, 15)
         .InsertBefore(5, 1)
-        .InsertAfter(20, 30)
+        .InsertAfter(20, 30)  
         .InsertBefore(30, 25)
         .DeleteNode(5)
         .Print();
@@ -25,5 +26,19 @@ static async Task ArrayExample()
     var newArray = array.Resize(10);
     newArray.PrintArray();
     await Console.Out.WriteLineAsync($"{newArray.GetAt(10)}");
+}
+void SearchValueDemo()
+{
+    var base64SearchValues = SearchValues.Create(base64Chars);
+    var exampleText = "asgdggdAh^hhhf=";
+    Console.WriteLine(IsBase64(base64SearchValues, exampleText));
+}
+
+
+bool IsBase64(SearchValues<char> searchValue, string text)
+{
+    return text
+        .AsSpan()
+        .ContainsAnyExcept(searchValue) is false;
 }
 

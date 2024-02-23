@@ -7,3 +7,4 @@ global using System.Text.Json;
 global using CloudNativeCamp;
 global using CloudNativeCamp.LinkedListImplementation;
 global using CloudNativeCamp.LinkedListImplementation.SinglyLinkedList;
+global using System.Buffers;
