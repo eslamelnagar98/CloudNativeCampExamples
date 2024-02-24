@@ -1,4 +1,6 @@
-﻿const string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+﻿using CloudNativeCamp.LinkedListImplementation.DoublyLinkedList;
+
+const string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 //SearchValueDemo();
 //await ArrayExample();
 //await LinkedListExample<SinglyLinkedListExp<int>>();
@@ -13,7 +15,7 @@ static async Task LinkedListExample<T>() where T : LinkedListExp<int>, new()
         .InsertLast(20)
         .InsertAfter(10, 15)
         .InsertBefore(5, 1)
-        .InsertAfter(20, 30)  
+        .InsertAfter(20, 30)
         .InsertBefore(30, 25)
         .DeleteNode(5)
         .Print();

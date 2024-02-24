@@ -21,12 +21,17 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
         }
         var linkedListNode = new LinkedListNodeExp<T>(data)
         {
-            Next = existsNode.Next
+            Next = existsNode.Next,
+            Back = existsNode
         };
         existsNode.Next = linkedListNode;
         if (linkedListNode.Next is null)
         {
             _tail = linkedListNode;
+        }
+        else
+        {
+            linkedListNode.Next.Back = linkedListNode;
         }
         _length++;
         return this;
@@ -35,8 +40,8 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
     public override DoublyLinkedListExp<T> InsertBefore(T nodeData, T data)
     {
         var nextNode = Find(nodeData);
-        var linkedListNode = new LinkedListNodeExp<T>(data) { Next = nextNode };
-        var parentNode = FindParent(nextNode);
+        var parentNode = nextNode.Back;
+        var linkedListNode = new LinkedListNodeExp<T>(data);
         if (parentNode is null)
         {
             _head = linkedListNode;
@@ -44,10 +49,13 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
             return this;
         }
         parentNode.Next = linkedListNode;
+        parentNode.Next.Back = parentNode;
         if (nextNode.Next is null)
         {
             _tail = nextNode;
         }
+        nextNode.Back = linkedListNode;
+        nextNode.Back.Next = nextNode;
         _length++;
         return this;
     }
@@ -66,12 +74,16 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
             return ResetLinkedList();
         }
 
-        if (_head == nodeToBeDeleted)
+        if (nodeToBeDeleted.Back is null)
         {
             return DeleteFirstElementInLinkedList(nodeToBeDeleted);
         }
-        return DeleteNodeInsideLinkedList(nodeToBeDeleted);
 
+        if (nodeToBeDeleted.Next is null)
+        {
+            DeleteLatElementInLinkedList(nodeToBeDeleted);
+        }
+        return DeleteNodeInsideLinkedList(nodeToBeDeleted);
     }
 
     private DoublyLinkedListExp<T> ResetLinkedList()
@@ -85,41 +97,27 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
     private DoublyLinkedListExp<T> DeleteFirstElementInLinkedList(LinkedListNodeExp<T> nodeToBeDeleted)
     {
         _head = nodeToBeDeleted.Next;
+        nodeToBeDeleted.Next.Back = null;
+        _length--;
+        return this;
+    }
+
+    private DoublyLinkedListExp<T> DeleteLatElementInLinkedList(LinkedListNodeExp<T> nodeToBeDeleted)
+    {
+        _tail = nodeToBeDeleted;
+        nodeToBeDeleted.Back.Next = null;
         _length--;
         return this;
     }
 
     private DoublyLinkedListExp<T> DeleteNodeInsideLinkedList(LinkedListNodeExp<T> nodeToBeDeleted)
     {
-        var parentNode = FindParent(nodeToBeDeleted);
-        if (_tail == nodeToBeDeleted)
-        {
-            _tail = parentNode;
-            _length--;
-            return this;
-        }
-
+        var parentNode = nodeToBeDeleted.Back;
         parentNode.Next = nodeToBeDeleted.Next;
+        nodeToBeDeleted.Next.Back = parentNode;
         _length--;
         return this;
     }
-    private LinkedListNodeExp<T> FindParent(LinkedListNodeExp<T> nextNode)
-    {
-        if (nextNode is null)
-        {
-            return null;
-        }
-        foreach (var linkedListNode in this)
-        {
-            if (linkedListNode.Next == nextNode)
-            {
-                return linkedListNode;
-            }
-        }
-
-        return null;
-    }
-
     private LinkedListNodeExp<T> Find(T data)
     {
         foreach (var linkedListNodeValue in this)
@@ -142,6 +140,7 @@ internal sealed class DoublyLinkedListExp<T> : LinkedListExp<T>
 
     private DoublyLinkedListExp<T> InsertLastInternal(LinkedListNodeExp<T> linkedListNode)
     {
+        linkedListNode.Back = _tail;
         _tail.Next = linkedListNode;
         _tail = linkedListNode;
         _length++;

@@ -15,6 +15,7 @@ internal abstract class LinkedListExp<T> : IEnumerable<LinkedListNodeExp<T>>
     public abstract LinkedListExp<T> InsertBefore(T nodeData, T data);
 
     public abstract LinkedListExp<T> DeleteNode(T data);
+
     public IEnumerator<LinkedListNodeExp<T>> GetEnumerator()
     {
         var enumerator = new LinkedListIteratorExp<T>(_head);

@@ -4,6 +4,7 @@ internal sealed class LinkedListNodeExp<T>
 {
     public T Data { get; set; }
     public LinkedListNodeExp<T> Next { get; set; }
+    public LinkedListNodeExp<T> Back { get; set; }
     public LinkedListNodeExp(T data)
     {
         Data = data;
