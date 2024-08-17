@@ -1,15 +1,25 @@
 ﻿namespace CloudNativeCamp.KeyValuePairList;
-internal sealed class CustomeDictionary<TKey, TValue> where TKey : class
+internal sealed class CustomeDictionary<TKey, TValue>() where TKey : class
 {
-    private readonly int _initialSize = 5;
+    private static readonly int _initialSize = 5;
     private int _entriesCount;
-    private int _capacity;
-    private KeyValuePair[] _entries;
+    private int _capacity = _initialSize;
+    private KeyValuePair[] _entries = new KeyValuePair[_initialSize];
 
-    public CustomeDictionary()
+    public void Set(TKey key, TValue value)
     {
-        _entries = new KeyValuePair[_initialSize];
-        _capacity = _initialSize;
+        for (int i = 0; i < _entries.Length; i++)
+        {
+            if (_entries[i] is not null && _entries[i].Key == key)
+            {
+                _entries[i].Value = value;
+                return;
+            }
+        }
+        ResizeOrNot();
+        var newPair = new KeyValuePair(key, value);
+        _entries[_entriesCount] = newPair;
+        _entriesCount++;
     }
 
     public void AddOrUpdate(TKey key, TValue value)
@@ -44,7 +54,7 @@ internal sealed class CustomeDictionary<TKey, TValue> where TKey : class
     {
         for (int i = 0; i < _entries.Length; i++)
         {
-            if (_entries[i] != null && _entries[i].Key == key)
+            if (_entries[i] is not null && _entries[i].Key == key)
             {
                 _entries[i] = _entries[_entriesCount - 1];
                 _entries[_entriesCount - 1] = null;
@@ -91,19 +101,9 @@ internal sealed class CustomeDictionary<TKey, TValue> where TKey : class
 
     public int Size() => _entriesCount;
 
-    private class KeyValuePair
+    private class KeyValuePair(TKey key, TValue value)
     {
-        private readonly TKey _key;
-        private readonly TValue _value;
-
-        public KeyValuePair(TKey key, TValue value)
-        {
-            _key = key;
-            _value = value;
-        }
-
-        public TKey Key => _key;
-        public TValue Value { get; set; }
+        public TKey Key => key;
+        public TValue Value { get; set; } = value;
     }
-
 }
