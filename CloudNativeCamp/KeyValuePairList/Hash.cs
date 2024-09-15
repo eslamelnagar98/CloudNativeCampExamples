@@ -27,7 +27,7 @@ public static class Hash
         uint hash = OffsetBasis32;
         foreach (var b in byteArray)
         {
-            hash ^= b;  
+            hash ^= b;
             hash *= FNVPrime32;
         }
         Console.WriteLine($"{BitConverter.ToString(byteArray)}, {hash}, {hash:x}");

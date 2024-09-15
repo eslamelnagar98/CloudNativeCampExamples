@@ -1,4 +1,5 @@
 ﻿using CloudNativeCamp.KeyValuePairList;
+using CloudNativeCamp.Tree;
 
 #region Linked List
 const string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -8,7 +9,8 @@ const string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 //await LinkedListExample<DoublyLinkedListExp<int>>(); 
 #endregion
 //HashTest();
-HashTableTest();
+//HashTableTest();
+BinaryTreeTest();
 Console.ReadKey();
 
 static async Task LinkedListExample<T>() where T : LinkedListExp<int>, new()
@@ -97,4 +99,20 @@ static void HashTableTest()
     CutomeHashTable.Set("Arist", "arist@gmail.com");
     CutomeHashTable.Print();
     Console.WriteLine("[get] " + CutomeHashTable.Get("Sinar"));
+}
+
+static void BinaryTreeTest()
+{
+    var tree = new BinaryTree<char>();
+    tree.Insert('A');
+    tree.Insert('B');
+    tree.Insert('C');
+    tree.Insert('D');
+    tree.Insert('E');
+    tree.Insert('F');
+    tree.Insert('G');
+    tree.Insert('H');
+    tree.Insert('I');
+    tree.Print();
+
 }

@@ -16,6 +16,7 @@ public sealed class CustomHashTable<TKey, TValue> where TKey : class
         var index = FindEntryIndex(key);
         return index != -1 && _entries[index] is not null ? _entries[index].Value : default;
     }
+
     public void Print()
     {
         Console.WriteLine("-----------");
